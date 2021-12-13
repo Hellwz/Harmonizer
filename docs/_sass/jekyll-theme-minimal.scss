@@ -24,13 +24,16 @@ header {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-section, footer {
+section {
   float: right;
   width: 740px;
 }
 
 footer {
+  float: left;
+  width: 270px;
   padding-bottom: 50px;
+  position:fixed;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
