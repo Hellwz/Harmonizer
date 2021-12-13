@@ -30,11 +30,11 @@ section {
 }
 
 footer {
-  float: left;
-  width: 270px;
-  padding-bottom: 50px;
+  width:270px;
+  float:left;
+  position:fixed;
   bottom:50px;
-  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-font-smoothing:subpixel-antialiased;
 }
 
 // Menu
