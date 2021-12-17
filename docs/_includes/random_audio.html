@@ -1,12 +1,60 @@
 <div>
-    <audio id="audio_1" src="audio/outputs-baseline/jigs29.mp3" type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
-    <button onclick="roll();">Change</button>
+    <p id="audio_name_1">Null</p>
+    <audio id="audio_1" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+    
+    <p id="audio_name_2">Null</p>
+    <audio id="audio_2" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+    
+    <p id="audio_name_3">Null</p>
+    <audio id="audio_3" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+    
+    <p id="audio_name_4">Null</p>
+    <audio id="audio_4" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+    
+    <p id="audio_name_5">Null</p>
+    <audio id="audio_5" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+    
+    <div style="text-align:center">
+        <button onclick="roll();">Change</button>                  
+    </div>
 </div>
 
-
+<script type="text/javascript" src="../assets/js/audio_name.js"></script>
 <script lang="javascript">
     function roll()
     {
-        document.getElementById("audio_1").src = "audio/outputs-baseline/ashover40.mp3";
+        for (var i=1;i<=5;i++)
+        {
+            var audio_num = audio_names.length;
+            var r1 = Math.round(Math.random()); // 0 or 1
+            var audio_path = "audio/"
+            if (r1 == 0) audio_path += "val/";
+            else
+            {
+                var r2 = Math.floor(Math.random()*4); // 0 ~ 3
+                switch(r2)
+                {
+                    case 0:
+                        audio_path += "outputs-baseline/";
+                        break;
+                    case 1:
+                        audio_path += "outputs-0.1/";
+                        break;
+                    case 2:
+                        audio_path += "outputs-0.5/";
+                        break;
+                    case 3:
+                        audio_path += "outputs-0.9/";
+                        break;
+                }
+            }
+            var r3 = Math.floor(Math.random()*audio_num);
+            audio_path += audio_names[r3] + ".mp3"
+            audio_name_id = "audio_name_" + i.toString();
+            audio_id = "audio_" + i.toString();
+            document.getElementById(audio_name_id).innerHTML = audio_path;
+            document.getElementById(audio_id).src = audio_path;
+        }
     }
+    roll();
 </script>
