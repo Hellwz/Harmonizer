@@ -1,21 +1,36 @@
 <div>
-    <p id="audio_name_1">Null</p>
-    <audio id="audio_1" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
-    
-    <p id="audio_name_2">Null</p>
-    <audio id="audio_2" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
-    
-    <p id="audio_name_3">Null</p>
-    <audio id="audio_3" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
-    
-    <p id="audio_name_4">Null</p>
-    <audio id="audio_4" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
-    
-    <p id="audio_name_5">Null</p>
-    <audio id="audio_5" src=null type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
-    
     <div style="text-align:center">
-        <button onclick="roll();">Change</button>                  
+        <p id="audio_name_1" style="text-align:left">Null</p>
+        <audio id="audio_1" src="audio/val/ashover7.mp3" type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+        <a id="score_1" href="pdf/val/ashover7.pdf" target="_blank">Score</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px">
+        <p id="audio_name_2" style="text-align:left">Null</p>
+        <audio id="audio_2" src="audio/outputs-baseline/ashover7.mp3" type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+        <a id="score_2" href="pdf/outputs-baseline/ashover7.pdf" target="_blank">Score</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px">
+        <p id="audio_name_3" style="text-align:left">Null</p>
+        <audio id="audio_3" src="audio/outputs-0.1/ashover7.mp3" type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+        <a id="score_3" href="pdf/outputs-0.1/ashover7.pdf" target="_blank">Score</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px">
+        <p id="audio_name_4" style="text-align:left">Null</p>
+        <audio id="audio_4" src="audio/outputs-0.5/ashover7.mp3" type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+        <a id="score_4" href="pdf/outputs-0.5/ashover7.pdf" target="_blank">Score</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px">
+        <p id="audio_name_5" style="text-align:left">Null</p>
+        <audio id="audio_5" src="audio/outputs-0.9/ashover7.mp3" type="audio/mpeg" controls controlsList="nodownload">Your browser does not support the audio element.</audio>
+        <a id="score_5" href="pdf/outputs-0.9/ashover7.pdf" target="_blank">Score</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px" >
+        <button onclick="roll();">Get another 5</button>                  
     </div>
 </div>
 
@@ -30,7 +45,12 @@
             var audio_num = audio_names.length;
             var r1 = Math.round(Math.random()); // 0 or 1
             var audio_path = "audio/"
-            if (r1 == 0) audio_path += "val/";
+            var pdf_path = "pdf/"
+            if (r1 == 0) 
+            {
+                audio_path += "val/";
+                pdf_path += "val/";
+            }
             else
             {
                 var r2 = Math.floor(Math.random()*4); // 0 ~ 3
@@ -38,24 +58,32 @@
                 {
                     case 0:
                         audio_path += "outputs-baseline/";
+                        pdf_path += "outputs-baseline/";
                         break;
                     case 1:
                         audio_path += "outputs-0.1/";
+                        pdf_path += "outputs-0.1/";
                         break;
                     case 2:
                         audio_path += "outputs-0.5/";
+                        pdf_path += "outputs-0.5/";
                         break;
                     case 3:
                         audio_path += "outputs-0.9/";
+                        pdf_path += "outputs-0.9/";
                         break;
                 }
             }
             var r3 = Math.floor(Math.random()*audio_num);
             audio_path += audio_names[r3] + ".mp3"
+            pdf_path += audio_names[r3] + ".pdf"
             audio_name_id = "audio_name_" + i.toString();
             audio_id = "audio_" + i.toString();
+            pdf_id = "score_" + i.toString();
             document.getElementById(audio_name_id).innerHTML = audio_path;
             document.getElementById(audio_id).src = audio_path;
+            document.getElementById(pdf_id).innerHTML = "Score of " + audio_names[r3];
+            document.getElementById(pdf_id).href = pdf_path;
         }
     }
     roll();
