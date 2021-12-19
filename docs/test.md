@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Play
+title: Test
 ---
 
 # Test
