@@ -43,9 +43,9 @@ As shown in Fig. 4, the harmonic rhythm model mainly consists of three component
 
 Given a melody sequence $m_{1:T}=\{m_{1},m_{2},...m_{T}\}$ of length $T$ and a corresponding beat sequence $b_{1:T}=\{b_{1},b_{2},...b_{T}\}$, this model can generate a harmonic rhythm sequence $r_{1:T}=\{r_{1},r_{2},...r_{T}\}$. When at time step $t\in\{1,2,...,T\}$, it generates the current harmonic rhythm token $r_{t}$, from $m_{1:T}$, $b_{1:T}$, and the previously generated $r_{1:t-1}$:
 
-$$r_{t}=\mathcal{M}_{R}(m_{1:T},b_{1:T},r_{1:t-1},\theta_{R}),\tag{1}$$
+$$r_{t}=\mathcal M_R(m_{1:T},b_{1:T},r_{1:t-1},\theta_{R}),\tag{1}$$
 
-where $\mathcal{M}_{R}$ denotes the harmonic rhythm model and $\theta_{R}$ is its parameter. Since the harmonic rhythm model can refer to melody information $m_{t+1:T}$ and beat information $b_{t+1:T}$ after time step $t$, a longer-term choice is made when generating $r_{t}$. This approach is also consistent with the compositional approach of most composers, just as they usually rely on subsequent melodies as well as time signatures to decide how to arrange the current chord.
+where $\mathcal M_R$ denotes the harmonic rhythm model and $\theta_{R}$ is its parameter. Since the harmonic rhythm model can refer to melody information $m_{t+1:T}$ and beat information $b_{t+1:T}$ after time step $t$, a longer-term choice is made when generating $r_{t}$. This approach is also consistent with the compositional approach of most composers, just as they usually rely on subsequent melodies as well as time signatures to decide how to arrange the current chord.
 
 ## Chord Model
 
@@ -65,9 +65,9 @@ As shown in Fig. 6, we cut the melody into small segments according to the durat
 
 When at time step $l\in\{1,2,...,L\}$, the chord model generates four chord vectors $c_{l}^{1st}$,$c_{l}^{2nd}$,$c_{l}^{3rd}$ and $c_{l}^{4th}$ of the current chord based on $M_{1:L}$ and the previously generated chords $c_{1:l-1}$:
 
-$$c_{l}^{n}=\mathcal{M}_{P}(M_{1:L},c_{1:l-1},\theta_{P}),\tag{2}$$
+$$c_{l}^{n}=\mathcal M_P(M_{1:L},c_{1:l-1},\theta_{P}),\tag{2}$$
 
-where $\mathcal{M}_{P}$ denotes the chord model, $\theta_{P}$ is its parameter and $n\in\{1,2,3,4\}$ is the index of the chord vector. By combining these four outputs for time step $l$, we can get the chord $c_{l}$ at time step $l$.
+where $\mathcal M_P$ denotes the chord model, $\theta_{P}$ is its parameter and $n\in\{1,2,3,4\}$ is the index of the chord vector. By combining these four outputs for time step $l$, we can get the chord $c_{l}$ at time step $l$.
 
 In addition, unlike the harmonic rhythm model, the chord model has four outputs, thus it also has four corresponding loss values. Since modifying any note in the chord will change the nature of it, we do not set weights for the four loss values.
 
@@ -79,7 +79,7 @@ To achieve the harmonic rhythm-controllable melody harmonization task, we use a 
 
 $$p_{h}^{*}=p_{h}^{tan(\frac{\pi d}{2})},{\quad}{\,}p_{i}^{*}=(p_{h}-p_{h}^{*}) \cdot \frac{p_{i}}{\sum p_{\backslash h}}+p_{i},\tag{3}$$
 
-where $p_{h}$ and $p_{h}^{*}$ are the original and the new probability of the holding token, while $p_{i}$ and $p_{i}^{*}$ are the original and the new probabilities of non-holding tokens ($i\in \backslash h$). The first step in Eq. 3 is to change the probability of the holding token, and the second step is to ensure that the sum of the probabilities of all tokens is equal to 1. As shown in Fig. 7, when $d<0.5$, the probability of the holding token is increased, and when $d>0.5$, the probability of the holding token is decreased. Particularly, when $d=0.5$, the probabilities of all tokens do not change.
+where $p_h$ and $p_h^\*$ are the original and the new probability of the holding token, while $p_{i}$ and $p_{i}^{*}$ are the original and the new probabilities of non-holding tokens ($i\in \backslash h$). The first step in Eq. 3 is to change the probability of the holding token, and the second step is to ensure that the sum of the probabilities of all tokens is equal to 1. As shown in Fig. 7, when $d<0.5$, the probability of the holding token is increased, and when $d>0.5$, the probability of the holding token is decreased. Particularly, when $d=0.5$, the probabilities of all tokens do not change.
 
 <center><img src="figs/fig7.png" alt="fig7"></center>
 <center>Figure 7</center>
