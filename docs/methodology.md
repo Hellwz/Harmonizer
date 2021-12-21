@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Model
+title: Methodology
 ---
 
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
@@ -13,14 +13,17 @@ title: Model
     });
 </script>
 
-# Model
+# Methodology
 
 ## Encoding Method
 
 The encoding method we use is shown in Fig. 3. Each piece of music is encoded into four sequences as follows.
 
-<center><img src="figs/fig3.png" alt="fig3"></center>
-<center>Figure 3</center>
+<br>
+<center><img src="figs/fig3.png" alt="fig3" style="zoom:80%"></center>
+<br>
+<center>Figure 3: A two-bar sample of a melody, beat, rhythm (chord) and pitch (chord) representation. For simplicity, the time resolution in this example is set to eighth notes.</center>
+<br>
 
 **Melody Sequence**: we use 131-dimensional one-hot vectors representing melody, with a time resolution of sixteenth notes. The first 128 dimensions correspond to the 128 different pitches in MIDI. The 129th dimension represents rests, while the 130th dimension represents holds. Finally, the 131st dimension is a special token (for the chord model) used to separate two different melody segments.
 
@@ -38,8 +41,11 @@ Previous models of melody harmonization always generate chords at a fixed time i
 
 As shown in Fig. 4, the harmonic rhythm model mainly consists of three components: a melody encoder, a beat encoder, and a harmonic rhythm decoder. The melody encoder and beat encoder are implemented using Bi-LSTM, and the harmonic rhythm decoder is implemented using LSTM.
 
-<center><img src="figs/fig4.png" alt="fig4"></center>
-<center>Figure 4</center>
+<br>
+<center><img src="figs/fig4.png" alt="fig4" style="zoom:60%"></center>
+<br>
+<center>Figure 4: The structure of the harmonic rhythm model</center>
+<br>
 
 Given a melody sequence $m_{1:T}=\{m_{1},m_{2},...m_{T}\}$ of length $T$ and a corresponding beat sequence $b_{1:T}=\{b_{1},b_{2},...b_{T}\}$, this model can generate a harmonic rhythm sequence $r_{1:T}=\{r_{1},r_{2},...r_{T}\}$. When at time step $t\in\{1,2,...,T\}$, it generates the current harmonic rhythm token $r_{t}$, from $m_{1:T}$, $b_{1:T}$, and the previously generated $r_{1:t-1}$:
 
@@ -55,13 +61,19 @@ To solve these problems, we encode each chord $c_i$ as four one-hot vectors $c_i
 
 The structure of the chord model is given in Fig. 5. This model mainly consists of two components, namely the melody segment encoder and the chord decoder. The purpose of this model is to generate a chord sequence $c_{1:L}=\{c_{1},c_{2},...c_{L}\}$ of length $L$ based on a given melody segment sequence $M_{1:L}=\{M_{1},M_{2},...M_{L}\}$.
 
-<center><img src="figs/fig5.png" alt="fig5"></center>
-<center>Figure 5</center>
+<br>
+<center><img src="figs/fig5.png" alt="fig5" style="zoom:60%"></center>
+<br>
+<center>Figure 5: The structure of the chord model</center>
+<br>
 
 As shown in Fig. 6, we cut the melody into small segments according to the duration of each chord. Furthermore, we need to make sure that these segments are of equal length to be used as input. Usually, a chord has a duration of up to a whole note, so melodies that are longer than a whole note are truncated, and those that are shorter than a whole note are filled in with padding tokens. Finally, we concatenate these segments by inserting separators (the 131st dimension of the melody vector) between them.
 
+<br>
 <center><img src="figs/fig6.png" alt="fig6"></center>
-<center>Figure 6</center>
+<br>
+<center>Figure 6: A segmentation example of a two-bar melody</center>
+<br>
 
 When at time step $l\in\{1,2,...,L\}$, the chord model generates four chord vectors $c_{l}^{1st}$,$c_{l}^{2nd}$,$c_{l}^{3rd}$ and $c_{l}^{4th}$ of the current chord based on $M_{1:L}$ and the previously generated chords $c_{1:l-1}$:
 
@@ -81,7 +93,10 @@ $$p_{h}^{*}=p_{h}^{tan(\frac{\pi d}{2})},{\quad}{\,}p_{i}^{*}=(p_{h}-p_{h}^{*}) 
 
 where $p_h$ and $p_h^\*$ are the original and the new probability of the holding token, while $p_{i}$ and $p_{i}^{*}$ are the original and the new probabilities of non-holding tokens ($i\in \backslash h$). The first step in Eq. 3 is to change the probability of the holding token, and the second step is to ensure that the sum of the probabilities of all tokens is equal to 1. As shown in Fig. 7, when $d<0.5$, the probability of the holding token is increased, and when $d>0.5$, the probability of the holding token is decreased. Particularly, when $d=0.5$, the probabilities of all tokens do not change.
 
-<center><img src="figs/fig7.png" alt="fig7"></center>
-<center>Figure 7</center>
+<br>
+<center><img src="figs/fig7.png" alt="fig7" style="zoom:60%"></center>
+<br>
+<center>Figure 7: Graphic representation of how density sampling changes the probability of the specified token.</center>
+<br>
 
 As this specified token is the holding token in this implementation, $d$ can be used to control the sparsity of the chord progression. Furthermore, this method is not limited to controlling rhythm density. For example, in a music generation task, if we know which token represents the tonic, we can use density sampling to control the probability of the tonic token and achieve a controllable generation of tonality. More generally, density sampling can be applied to any language model for controllable generation based on modifying the probability of a specified token.

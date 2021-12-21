@@ -1,9 +1,9 @@
 <div>
     <select id="options">
         <option value ="outputs-baseline">Baseline</option>
-        <option value="outputs-0.1">d = 0.1</option>
-        <option value="outputs-0.5">d = 0.5</option>
-        <option value="outputs-0.9">d = 0.9</option>
+        <option value="outputs-0.1">AutoHarmonizer (d = 0.1)</option>
+        <option value="outputs-0.5">AutoHarmonizer (d = 0.5)</option>
+        <option value="outputs-0.9">AutoHarmonizer (d = 0.9)</option>
     </select>
 
     <button onclick="show();">Show</button>
@@ -15,7 +15,7 @@
             <a id="score_1" href="pdf/val/ashover7.pdf" target="_blank">Score</a>
             <form id="form_1" style="margin-top:20px">
                 <input type="radio" name="predict" value="val">Human
-                <input type="radio" name="predict" value="outputs">Model
+                <input type="radio" name="predict" value="outputs">Machine
             </form>
         </div>
     
@@ -25,7 +25,7 @@
             <a id="score_2" href="pdf/outputs-baseline/ashover7.pdf" target="_blank">Score</a>
             <form id="form_2" style="margin-top:20px">
                 <input type="radio" name="predict" value="val">Human
-                <input type="radio" name="predict" value="outputs">Model
+                <input type="radio" name="predict" value="outputs">Machine
             </form>
         </div>
     
@@ -35,7 +35,7 @@
             <a id="score_3" href="pdf/outputs-0.1/ashover7.pdf" target="_blank">Score</a>
             <form id="form_3" style="margin-top:20px">
                 <input type="radio" name="predict" value="val">Human
-                <input type="radio" name="predict" value="outputs">Model
+                <input type="radio" name="predict" value="outputs">Machine
             </form>
         </div>
     
@@ -45,7 +45,7 @@
             <a id="score_4" href="pdf/outputs-0.5/ashover7.pdf" target="_blank">Score</a>
             <form id="form_4" style="margin-top:20px">
                 <input type="radio" name="predict" value="val">Human
-                <input type="radio" name="predict" value="outputs">Model
+                <input type="radio" name="predict" value="outputs">Machine
             </form>
         </div>
     
@@ -55,7 +55,7 @@
             <a id="score_5" href="pdf/outputs-0.9/ashover7.pdf" target="_blank">Score</a>
             <form id="form_5" style="margin-top:20px">
                 <input type="radio" name="predict" value="val">Human
-                <input type="radio" name="predict" value="outputs">Model
+                <input type="radio" name="predict" value="outputs">Machine
             </form>
         </div>
         <div style="text-align:center; margin-top:20px; margin-bottom:20px" >
@@ -127,7 +127,7 @@
         for (var i=1; i<=5; i++)
         {
             if (ans[i] == "val") show_str += "Song " + i.toString() + ": " + "Human" + "\n";
-            else show_str += "Song " + i.toString() + ": " + "Model" + "\n";
+            else show_str += "Song " + i.toString() + ": " + "Machine" + "\n";
         }
         alert(show_str);
     }
